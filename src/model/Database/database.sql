@@ -28,7 +28,9 @@ create table Product_Category (
 -- User
 create table ClientUser (
     idClientUser number primary key,
-    name varchar2(50) not null
+    name varchar2(50) not null,
+    email varchar2(50) not null,
+    password varchar2(20) not null
 );
 
 CREATE SEQUENCE ClientUser_seq INCREMENT BY 1 START WITH 1 MINVALUE 1;
