@@ -41,54 +41,53 @@ public class Purchase {
         return successfullyRecorded;
     }
 
-    public void savePurchase_Product (int idProduct) {
-        Conexao dbConnection = new Conexao();
-        PreparedStatement preparedStatement = null;
+    // public void savePurchase_Product (int idProduct) {
+    //     Conexao dbConnection = new Conexao();
+    //     PreparedStatement preparedStatement = null;
 
-        String insertTableSQL = "INSERT INTO Product_Category"
-                + "(idPurchaseProduct, FK_idPurchase, FK_idProduct) VALUES"
-                + "(Purchase_Product_seq, nextval, ?, ?)"; 
-    }
+    //     String insertTableSQL = "INSERT INTO Product_Category"
+    //             + "(idPurchaseProduct, FK_idPurchase, FK_idProduct) VALUES"
+    //             + "(Purchase_Product_seq, nextval, ?, ?)"; 
+    // }
 
-    public void save() {
-        Conexao dbConnection = new Conexao();
-        PreparedStatement preparedStatement = null;
+    // public void save() {
+    //     Conexao dbConnection = new Conexao();
+    //     PreparedStatement preparedStatement = null;
 
-        String insertTableSQL = "INSERT INTO Product"
-                + "(idProduct, name, url) VALUES" 
-                + "(Product_seq.nextval, ?, ?)"; 
+    //     String insertTableSQL = "INSERT INTO Purchase"
+    //             + "(idPurchase, datePurchase, FK_idClientUser) VALUES" 
+    //             + "(Purchase_seq.nextval, ?, ?)"; 
 
-        try {
-            preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL, new String[] { "idPurchase" });
+    //     try {
+    //         preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL, new String[] { "idPurchase" });
 
-            preparedStatement.setString(1, this.getName());
-            preparedStatement.setString(2, this.getUrl());
-            // execute insert SQL statement
-            preparedStatement.executeUpdate();
+    //         preparedStatement.setString(1, this.getDate());
+    //         preparedStatement.setString(2, global.getUser().getIdUser());
+    //         // execute insert SQL statement
+    //         preparedStatement.executeUpdate();
 
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+    //         ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 
-            if (null != generatedKeys && generatedKeys.next()) {
-                this.idProduct = generatedKeys.getInt(1);
-            }
+    //         if (null != generatedKeys && generatedKeys.next()) {
+    //             this.idPurchase = generatedKeys.getInt(1);
+    //         }
 
-            successfullyRecorded = true;
-        } catch (SQLException e) {
-            System.out.println("[ERROR]: RECORD FAILED --> " + e);
-        } finally {
-            dbConnection.desconecta();
-        }
-    }
+    //         successfullyRecorded = true;
+    //     } catch (SQLException e) {
+    //         System.out.println("[ERROR]: RECORD FAILED --> " + e);
+    //     } finally {
+    //         dbConnection.desconecta();
+    //     }
+    // }
 
     public void update() {
         Conexao dbConnection = new Conexao();
-        String insertTableSQL = "UPDATE Category SET name = ?, url = ? WHERE idProduct = ?";
+        String insertTableSQL = "UPDATE Purchase SET date = ? WHERE idPurchase = ?";
 
         try {
             PreparedStatement preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL);
-            preparedStatement.setString(1, this.getName());
-            preparedStatement.setString(2, this.getUrl());
-            preparedStatement.setInt(3, this.getIdProduct());
+            preparedStatement.setString(1, this.getDate());
+            preparedStatement.setInt(2, this.getIdPurchase());
             preparedStatement.executeUpdate();
             successfullyRecorded = true;
         } catch (Exception e) {
@@ -100,11 +99,11 @@ public class Purchase {
 
     public void delete() {
         Conexao dbConnection = new Conexao();
-        String insertTableSQL = "DELETE FROM Product WHERE idProduct = ?";
+        String insertTableSQL = "DELETE FROM Purchase WHERE idPurchase = ?";
 
         try {
             PreparedStatement preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL);
-            preparedStatement.setInt(1, this.getIdProduct());
+            preparedStatement.setInt(1, this.getIdPurchase());
             preparedStatement.executeUpdate();
             successfullyRecorded = true;
         } catch (Exception e) {
