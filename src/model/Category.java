@@ -102,4 +102,34 @@ public class Category {
             dbConnection.desconecta();
         }
     }
+
+    public static ArrayList<Veiculo> getAll() {
+        ArrayList<Veiculo> veiculos = new ArrayList<Veiculo>();
+
+        Conexao dbConnection = new Conexao();
+        String insertTableSQL = "SELECT * FROM veiculo";
+
+        try {
+            PreparedStatement preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                Veiculo veiculo = null;
+
+                if("Carro".equals(rs.getString("tipo"))) {
+                    veiculo = new Carro(rs.getString("placa"), rs.getString("modelo"), rs.getDouble("preco"), rs.getInt("id"));
+                } else {
+                    veiculo = new Moto(rs.getString("placa"), rs.getString("modelo"), rs.getDouble("preco"), rs.getInt("id"));
+                }
+
+                veiculos.add(veiculo);
+            }
+        } catch (SQLException e) {
+            System.out.println("[ERROR]: GET ALL FAILED --> " + e);
+        } finally {
+            dbConnection.desconecta();
+        }
+
+        return veiculos;
+    }
 }

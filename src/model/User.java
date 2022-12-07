@@ -9,6 +9,7 @@ public class User {
     //Falta read de ClientUser 
     private  int idUser;
     private String name, email, password;
+    private boolean isValid, successfullyRecorded = false;
 
     public String getName() {
         return this.name;
@@ -40,7 +41,6 @@ public class User {
     public void setSuccessfullyRecorded(boolean successfullyRecorded) {
         this.successfullyRecorded = successfullyRecorded;
     }
-    private boolean isValid, successfullyRecorded = false;
 
     public int getIdUser() {
         return this.idUser;
@@ -131,4 +131,24 @@ public class User {
             dbConnection.desconecta();
         }
     }
+
+    // public static void validateUser() {
+    //     Conexao dbConnection = new Conexao();
+    //     String insertTableSQL = "SELECT * FROM ClientUser";
+
+    //     try {
+    //         PreparedStatement preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL);
+    //         preparedStatement.setString(3, this.getPassword());
+    //         preparedStatement.setInt(4, this.getIdUser());
+    //         ResultSet rs = preparedStatement.executeQuery();
+
+            
+    //     } catch (SQLException e) {
+    //         System.out.println("[ERROR]: GET ALL FAILED --> " + e);
+    //     } finally {
+    //         dbConnection.desconecta();
+    //     }
+
+    //     return veiculos;
+    // }
 }
