@@ -11,6 +11,12 @@ public class Category {
     private String name, description;
     private boolean successfullyRecorded = false;
 
+    public Category(int idCategory, String name, String description) {
+        this.idCategory = idCategory;
+        this.name = name;
+        this.description = description;
+    }
+
     public int getIdCategory() {
         return this.idCategory;
     }
@@ -103,26 +109,21 @@ public class Category {
         }
     }
 
-    public static ArrayList<Veiculo> getAll() {
-        ArrayList<Veiculo> veiculos = new ArrayList<Veiculo>();
+    public static ArrayList<Category> getByProduct(int idProduct) {
+        ArrayList<Category> categories = new ArrayList<Category>();
 
         Conexao dbConnection = new Conexao();
-        String insertTableSQL = "SELECT * FROM veiculo";
+        String insertTableSQL = "SELECT Category.idCategory, Category.name, Category.description FROM Category inner join Product_Category on Product_Category.FK_idCategory = Category.idCategory WHERE Product_Category.FK_idProduct = ?";
 
         try {
             PreparedStatement preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, idProduct);
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
-                Veiculo veiculo = null;
+                Category category = new Category(rs.getInt("idCategory"), rs.getString("name"), rs.getString("description"));
 
-                if("Carro".equals(rs.getString("tipo"))) {
-                    veiculo = new Carro(rs.getString("placa"), rs.getString("modelo"), rs.getDouble("preco"), rs.getInt("id"));
-                } else {
-                    veiculo = new Moto(rs.getString("placa"), rs.getString("modelo"), rs.getDouble("preco"), rs.getInt("id"));
-                }
-
-                veiculos.add(veiculo);
+                categories.add(category);
             }
         } catch (SQLException e) {
             System.out.println("[ERROR]: GET ALL FAILED --> " + e);
@@ -130,6 +131,30 @@ public class Category {
             dbConnection.desconecta();
         }
 
-        return veiculos;
+        return categories;
+    }
+
+    public static ArrayList<Category> getAll() {
+        ArrayList<Category> categories = new ArrayList<Category>();
+
+        Conexao dbConnection = new Conexao();
+        String insertTableSQL = "SELECT Category.idCategory, Category.name, Category.description FROM Category";
+
+        try {
+            PreparedStatement preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                Category category = new Category(rs.getInt("idCategory"), rs.getString("name"), rs.getString("description"));
+
+                categories.add(category);
+            }
+        } catch (SQLException e) {
+            System.out.println("[ERROR]: GET ALL FAILED --> " + e);
+        } finally {
+            dbConnection.desconecta();
+        }
+
+        return categories;
     }
 }

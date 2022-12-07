@@ -13,6 +13,12 @@ public class Product {
     private boolean successfullyRecorded = false;
     private ArrayList<Category> categories = new ArrayList<>();
 
+    public Product(int idProduct, String name, String url) {
+        this.idProduct = idProduct;
+        this.name = name;
+        this.url = url;
+    }
+
     public int getIdProduct() {
         return this.idProduct;
     }
@@ -135,5 +141,80 @@ public class Product {
         } finally {
             dbConnection.desconecta();
         }
+    }
+
+    public static ArrayList<Product> getByCategory(int idCategory) {
+        ArrayList<Product> products = new ArrayList<Product>();
+
+        Conexao dbConnection = new Conexao();
+        String insertTableSQL = "SELECT Product.idProduct, Product.name, Product.url FROM Product inner join Product_Category on Product_Category.FK_idProduct = Product.idProduct WHERE Product_Category.FK_idCategory = ?";
+
+        try {
+            PreparedStatement preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, idCategory);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                Product product = new Product(rs.getInt("idProduct"), rs.getString("name"), rs.getString("url"));
+
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println("[ERROR]: GET ALL FAILED --> " + e);
+        } finally {
+            dbConnection.desconecta();
+        }
+
+        return products;
+    }
+
+    public static ArrayList<Product> getByPurchase(int idPurchase, int idClientUser) {
+        ArrayList<Product> products = new ArrayList<Product>();
+
+        Conexao dbConnection = new Conexao();
+        String insertTableSQL = "SELECT Product.idProduct, Product.name, Product.url FROM Product inner join Purchase_Product on Purchase_Product.FK_idProduct = Product.idProduct inner join Purchase on Purchase.idPurchase = Purchase_Product.FK_idPurchase WHERE Purchase.idPurchase = ? and Purchase.FK_idClientUser = ?";
+
+        try {
+            PreparedStatement preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, idPurchase);
+            preparedStatement.setInt(2, idClientUser);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                Product product = new Product(rs.getInt("idProduct"), rs.getString("name"), rs.getString("url"));
+
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println("[ERROR]: GET ALL FAILED --> " + e);
+        } finally {
+            dbConnection.desconecta();
+        }
+
+        return products;
+    }
+
+    public static ArrayList<Product> getAll() {
+        ArrayList<Product> products = new ArrayList<Product>();
+
+        Conexao dbConnection = new Conexao();
+        String insertTableSQL = "SELECT Product.idProduct, Product.name, Product.url FROM Product";
+
+        try {
+            PreparedStatement preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                Product product = new Product(rs.getInt("idProduct"), rs.getString("name"), rs.getString("url"));
+
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println("[ERROR]: GET ALL FAILED --> " + e);
+        } finally {
+            dbConnection.desconecta();
+        }
+
+        return products;
     }
 }
