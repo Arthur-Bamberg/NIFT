@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import model.User;
 
 
 public class LoginController implements Initializable {
@@ -20,28 +21,23 @@ public class LoginController implements Initializable {
     
     @FXML
     private Label error;
-    
-    // CRIAÇÃO DA TABELA
-
-    // create table login(
-    // id number primary key,
-    // username varchar2(9) not null,
-    // password varchar2(8) not null
-    // );
-
-    // INSERÇÃO
-    // insert into login
-    // values (1, 'Bigolindo', 'vouDar10')
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {}    
     
     public void entrar() throws IOException {
-        //Muito tarde pra conseguir fazer com o bd certinho, pelo menos a tabela e registro foi feito
-        if(user.getText().equals("Bigolindo") && password.getText().equals("vouDar10")) {
-            CRUD.setRoot("LocadoraVeiculo");
+        User usuario = new User();
+        
+        usuario.validateUser(user.getText(), password.getText());
+        
+        if(usuario.getIsValid()) {
+            CRUD.setRoot("Products");
         } else {
             error.setText("[ERRO] Login inválido!");
         }
+    }
+    
+    public void registerUser() throws IOException {
+        CRUD.setRoot("UserRegistration");
     }
 }

@@ -10,6 +10,15 @@ public class User {
     private  int idUser;
     private String name, email, password;
     private boolean isValid, successfullyRecorded = false;
+    
+    public User() {
+    }
+    
+    public User(String name, String email, String password) {
+        this.setName(name);
+        this.setEmail(email);
+        this.setPassword(password);
+    }
 
     public String getName() {
         return this.name;
@@ -35,7 +44,7 @@ public class User {
         this.password = password;
     }
 
-    public boolean isSuccessfullyRecorded() {
+    public boolean setSuccessfullyRecorded() {
         return this.successfullyRecorded;
     }
     public void setSuccessfullyRecorded(boolean successfullyRecorded) {
@@ -50,7 +59,7 @@ public class User {
         this.idUser = idUser;
     }
 
-    public boolean isIsValid() {
+    public boolean setIsValid() {
         return this.isValid;
     }
 
@@ -71,7 +80,7 @@ public class User {
         PreparedStatement preparedStatement = null;
 
         String insertTableSQL = "INSERT INTO ClientUser"
-                + "(idClientUser, name, description, password) VALUES" 
+                + "(idClientUser, name, email, password) VALUES" 
                 + "(ClientUser_seq.nextval, ?, ?, ?)"; 
 
         try {
@@ -118,7 +127,7 @@ public class User {
 
     public void delete() {
         Conexao dbConnection = new Conexao();
-        String insertTableSQL = "DELETE FROM ClientUser WHERE ClientUser = ?";
+        String insertTableSQL = "DELETE FROM ClientUser WHERE idClientUser = ?";
 
         try {
             PreparedStatement preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL);
@@ -132,23 +141,23 @@ public class User {
         }
     }
 
-    // public static void validateUser() {
-    //     Conexao dbConnection = new Conexao();
-    //     String insertTableSQL = "SELECT * FROM ClientUser";
+    public void validateUser(String email, String password) {
+        Conexao dbConnection = new Conexao();
+        String insertTableSQL = "SELECT * FROM ClientUser where email = ? and password = ?";
 
-    //     try {
-    //         PreparedStatement preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL);
-    //         preparedStatement.setString(3, this.getPassword());
-    //         preparedStatement.setInt(4, this.getIdUser());
-    //         ResultSet rs = preparedStatement.executeQuery();
-
-            
-    //     } catch (SQLException e) {
-    //         System.out.println("[ERROR]: GET ALL FAILED --> " + e);
-    //     } finally {
-    //         dbConnection.desconecta();
-    //     }
-
-    //     return veiculos;
-    // }
+        try {
+            PreparedStatement preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL);
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+            ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next()){
+                this.setIsValid(true);
+                this.setIdUser(rs.getInt("idClientUser"));
+            }
+        } catch (SQLException e) {
+            System.out.println("[ERROR]: validateUser FAILED --> " + e);
+        } finally {
+            dbConnection.desconecta();
+        }
+    }
 }

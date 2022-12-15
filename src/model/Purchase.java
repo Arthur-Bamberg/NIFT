@@ -11,7 +11,7 @@ public class Purchase {
     private int idPurchase;
     private String date;
     private boolean successfullyRecorded = false;
-    private ArrayList<Product> products = new ArrayList<>();
+    private ArrayList<Integer> productsIds = new ArrayList<>();
 
     public int getIdPurchase() {
         return this.idPurchase;
@@ -29,56 +29,56 @@ public class Purchase {
         this.date = date;
     }
 
-    public ArrayList<Product> getProducts() {
-        return this.products;
+    public ArrayList<Integer> getProductsIds() {
+        return this.productsIds;
     }
 
-    public void setProducts(ArrayList<Product> products) {
-        this.products = products;
+    public void setProductsIds(ArrayList<Integer> productsIds) {
+        this.productsIds = productsIds;
     }
     
     public boolean getSuccessfullyRecorded() {
         return successfullyRecorded;
     }
 
-    // public void savePurchase_Product (int idProduct) {
-    //     Conexao dbConnection = new Conexao();
-    //     PreparedStatement preparedStatement = null;
+    public void savePurchase_Product (int idProduct) {
+        Conexao dbConnection = new Conexao();
+        PreparedStatement preparedStatement = null;
 
-    //     String insertTableSQL = "INSERT INTO Product_Category"
-    //             + "(idPurchaseProduct, FK_idPurchase, FK_idProduct) VALUES"
-    //             + "(Purchase_Product_seq, nextval, ?, ?)"; 
-    // }
+        String insertTableSQL = "INSERT INTO Product_Category"
+                + "(idPurchaseProduct, FK_idPurchase, FK_idProduct) VALUES"
+                + "(Purchase_Product_seq, nextval, ?, ?)"; 
+    }
 
-    // public void save() {
-    //     Conexao dbConnection = new Conexao();
-    //     PreparedStatement preparedStatement = null;
+    public void save() {
+        Conexao dbConnection = new Conexao();
+        PreparedStatement preparedStatement = null;
 
-    //     String insertTableSQL = "INSERT INTO Purchase"
-    //             + "(idPurchase, datePurchase, FK_idClientUser) VALUES" 
-    //             + "(Purchase_seq.nextval, ?, ?)"; 
+        String insertTableSQL = "INSERT INTO Purchase"
+                + "(idPurchase, datePurchase, FK_idClientUser) VALUES" 
+                + "(Purchase_seq.nextval, ?, ?)"; 
 
-    //     try {
-    //         preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL, new String[] { "idPurchase" });
+        try {
+            preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL, new String[] { "idPurchase" });
 
-    //         preparedStatement.setString(1, this.getDate());
-    //         preparedStatement.setString(2, global.getUser().getIdUser());
-    //         // execute insert SQL statement
-    //         preparedStatement.executeUpdate();
+            preparedStatement.setString(1, this.getDate());
+            //preparedStatement.setString(2, global.getUser().getIdUser());
+            // execute insert SQL statement
+            preparedStatement.executeUpdate();
 
-    //         ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 
-    //         if (null != generatedKeys && generatedKeys.next()) {
-    //             this.idPurchase = generatedKeys.getInt(1);
-    //         }
+            if (null != generatedKeys && generatedKeys.next()) {
+                this.idPurchase = generatedKeys.getInt(1);
+            }
 
-    //         successfullyRecorded = true;
-    //     } catch (SQLException e) {
-    //         System.out.println("[ERROR]: RECORD FAILED --> " + e);
-    //     } finally {
-    //         dbConnection.desconecta();
-    //     }
-    // }
+            successfullyRecorded = true;
+        } catch (SQLException e) {
+            System.out.println("[ERROR]: RECORD FAILED --> " + e);
+        } finally {
+            dbConnection.desconecta();
+        }
+    }
 
     public void update() {
         Conexao dbConnection = new Conexao();
