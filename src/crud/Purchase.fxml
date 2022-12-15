@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="553.0" prefWidth="737.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crud.PurchaseController">
+<AnchorPane id="AnchorPane" prefHeight="553.0" prefWidth="737.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crud.PurchaseController">
     <children>
       <Label layoutX="55.0" layoutY="51.0" text="Data" />
       <Label layoutX="58.0" layoutY="136.0" />
@@ -17,7 +17,7 @@
         <Button fx:id="cadastrar" layoutX="137.0" layoutY="242.0" onAction="#cadastrar" text="Cadastrar" />
       <TableView fx:id="purchaseTable" layoutX="340.0" layoutY="38.0" prefHeight="168.0" prefWidth="326.0">
         <columns>
-          <TableColumn fx:id="dateColumn" prefWidth="160.0" text="Data" />
+          <TableColumn fx:id="dateColumn" prefWidth="325.0" text="Data" />
         </columns>
       </TableView>
       <Accordion layoutX="35.0" layoutY="239.0" />

@@ -31,6 +31,7 @@ public class LoginController implements Initializable {
         usuario.validateUser(user.getText(), password.getText());
         
         if(usuario.getIsValid()) {
+            CRUD.getGlobal().setIdUser(usuario.getIdUser());
             CRUD.setRoot("Product");
         } else {
             error.setText("[ERRO] Login inválido!");

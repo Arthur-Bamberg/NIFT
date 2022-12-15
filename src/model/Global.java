@@ -1,40 +1,41 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Global {
-    Category category;
-    Product product;
-    Purchase purchase;
-    User user;
+    int idPurchase, idUser;
+    ArrayList<Integer> categoriesIds = new ArrayList<>();
+    ArrayList<Integer> productsIds = new ArrayList<>();
 
-    public Category getCategory() {
-        return this.category;
+    public int getIdPurchase() {
+        return this.idPurchase;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setIdPurchase(int idPurchase) {
+        this.idPurchase = idPurchase;
     }
 
-    public Product getProduct() {
-        return this.product;
+    public int getIdUser() {
+        return this.idUser;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
     }
 
-    public Purchase getPurchase() {
-        return this.purchase;
+    public ArrayList<Integer> getCategoriesIds() {
+        return this.categoriesIds;
     }
 
-    public void setPurchase(Purchase purchase) {
-        this.purchase = purchase;
+    public void setCategoriesIds(ArrayList<Integer> categoriesIds) {
+        this.categoriesIds = categoriesIds;
     }
 
-    public User getUser() {
-        return this.user;
+    public ArrayList<Integer> getProductsIds() {
+        return this.productsIds;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setProductsIds(ArrayList<Integer> productsIds) {
+        this.productsIds = productsIds;
     }
 }

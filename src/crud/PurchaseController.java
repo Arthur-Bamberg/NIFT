@@ -13,14 +13,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.Category;
 import model.Product;
+import model.Purchase;
 
-public class ProductController implements Initializable {
+public class PurchaseController implements Initializable {
 
     @FXML
     private Label label;
-    
+     
     @FXML
     private Label labelCategory;
 
@@ -72,7 +72,7 @@ public class ProductController implements Initializable {
         sairEdicao();
 
         labelCategory.setVisible(false);
-        categoryTable.setVisible(false);
+        productTable.setVisible(false);
 
         // Atribui o elemento a célula (dica crie um objeto fake para coisas mais
         // complexas)
@@ -118,7 +118,7 @@ public class ProductController implements Initializable {
         if (purchaseIsSelected()) {
             purchaseEdit = purchaseTable.getSelectionModel().getSelectedItem();
 
-            name.setText(purchaseEdit.getDate());
+            datePurchase.setText(purchaseEdit.getDate());
 
             entrarEdicao();// Esconde outros botoes e exibe o fim
         } else {
@@ -168,8 +168,7 @@ public class ProductController implements Initializable {
     }
 
     public void limparInputs() {
-        url.setText("");
-        name.setText("");
+        datePurchase.setText("");
     }
 
     public void limparLabel() {

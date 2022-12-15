@@ -1,6 +1,7 @@
 package model;
 
 import JDBC.Conexao;
+import crud.CRUD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +12,20 @@ public class Purchase {
     private int idPurchase;
     private String date;
     private boolean successfullyRecorded = false;
-    private ArrayList<Integer> productsIds = new ArrayList<>();
+    private ArrayList<Product> products = null;
+    
+    public Purchase() {
+        
+    }
+    
+    public Purchase(String date) {
+        this.date = date;
+    }
+
+    public Purchase(int idPurchase, String date) {
+        this.idPurchase = idPurchase;
+        this.date = date;
+    }
 
     public int getIdPurchase() {
         return this.idPurchase;
@@ -29,12 +43,12 @@ public class Purchase {
         this.date = date;
     }
 
-    public ArrayList<Integer> getProductsIds() {
-        return this.productsIds;
-    }
-
-    public void setProductsIds(ArrayList<Integer> productsIds) {
-        this.productsIds = productsIds;
+    public ArrayList<Product> getProducts() {
+        if(products == null) {
+            this.products = Product.load(this.idPurchase);
+        }
+        
+        return this.products;
     }
     
     public boolean getSuccessfullyRecorded() {
@@ -62,7 +76,7 @@ public class Purchase {
             preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL, new String[] { "idPurchase" });
 
             preparedStatement.setString(1, this.getDate());
-            //preparedStatement.setString(2, global.getUser().getIdUser());
+            preparedStatement.setInt(2, CRUD.getGlobal().getIdUser());
             // execute insert SQL statement
             preparedStatement.executeUpdate();
 
@@ -111,5 +125,30 @@ public class Purchase {
         } finally {
             dbConnection.desconecta();
         }
+    }
+    
+        public static ArrayList<Purchase> getAll() {
+        ArrayList<Purchase> purchases = new ArrayList<Purchase>();
+
+        Conexao dbConnection = new Conexao();
+        String insertTableSQL = "SELECT Purchase.idPurchase, Purchase.datePurchase FROM Purchase where FK_idClientUser = ?";
+
+        try {
+            PreparedStatement preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, CRUD.getGlobal().getIdUser());
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                Purchase purchase = new Purchase(rs.getInt("idPurchase"), rs.getString("datePurchase"));
+
+                purchases.add(purchase);
+            }
+        } catch (SQLException e) {
+            System.out.println("[ERROR]: GET ALL FAILED --> " + e);
+        } finally {
+            dbConnection.desconecta();
+        }
+
+        return purchases;
     }
 }

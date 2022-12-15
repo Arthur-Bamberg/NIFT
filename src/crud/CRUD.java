@@ -6,16 +6,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Global;
 
 public class CRUD extends Application {
     
     private static Scene scene;
+    private static Global global;
     
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("Login"), 1920, 1080);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static Global getGlobal() {
+        return global;
     }
 
     static void setRoot(String fxml) throws IOException {
