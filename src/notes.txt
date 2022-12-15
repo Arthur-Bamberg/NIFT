@@ -1,0 +1,2 @@
+ - Testar tela secundária de categorias na tela de produtos
+ - Testar toda tela de compra

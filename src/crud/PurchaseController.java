@@ -25,28 +25,22 @@ public class ProductController implements Initializable {
     private Label labelCategory;
 
     @FXML
-    private TextField name;
+    private TextField datePurchase;
 
     @FXML
-    private TextField url;
+    private TableColumn<Purchase, ?> dateColumn;
 
     @FXML
-    private TableColumn<Product, ?> nameColumn;
-
-    @FXML
-    private TableColumn<Product, ?> urlColumn;
-
-    @FXML
-    private TableView<Product> productTable;
+    private TableView<Purchase> purchaseTable;
     
     @FXML
-    private TableColumn<Category, ?> categoryName;
+    private TableColumn<Product, ?> productName;
         
     @FXML
-    private TableColumn<Category, ?> categoryDescription;
+    private TableColumn<Product, ?> productUrl;
     
     @FXML
-    private TableView<Category> categoryTable;
+    private TableView<Product> productTable;
 
     @FXML
     private Button cadastrar;
@@ -55,7 +49,7 @@ public class ProductController implements Initializable {
     private Button editar;
 
     @FXML
-    private Button showCategories;
+    private Button showProducts;
 
     @FXML
     private Button deletar;
@@ -66,9 +60,11 @@ public class ProductController implements Initializable {
     @FXML
     private Button voltar;
 
-    private ObservableList<Product> products;
+    private ObservableList<Purchase> purchases;
 
-    private Product productEdit = null;
+    private Purchase purchaseEdit = null;
+
+//Logo quando criar ou algo assim poder selecionar algum produto
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -80,30 +76,29 @@ public class ProductController implements Initializable {
 
         // Atribui o elemento a célula (dica crie um objeto fake para coisas mais
         // complexas)
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        urlColumn.setCellValueFactory(new PropertyValueFactory<>("url"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("datePurchase"));
         
-        categoryName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        categoryDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        productName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        productUrl.setCellValueFactory(new PropertyValueFactory<>("url"));
         
-        ObservableList lista  = FXCollections.observableArrayList(Product.getAll());
-        productTable.setItems(lista);
+        ObservableList lista  = FXCollections.observableArrayList(Purchase.getAll());
+        purchaseTable.setItems(lista);
         
-        products = productTable.getItems();
+        purchases = purchaseTable.getItems();
     }
 
     public void cadastrar() {
         limparLabel();
 
         if (inputsEstaoPreenchidos()) {
-            Product productTemp = new Product(name.getText(), url.getText());
+            Purchase purchaseTemp = new Purchase(datePurchase.getText());
             
-            add(productTemp);
+            add(purchaseTemp);
 
-            if (productTemp.getSuccessfullyRecorded()) {
+            if (purchaseTemp.getSuccessfullyRecorded()) {
                 label.setText("Cadastrado com sucesso!");
             } else {
-                label.setText("[ERRO] Não foi possível cadastrar o produto no banco de dados!");
+                label.setText("[ERRO] Não foi possível cadastrar a compra no banco de dados!");
             }
             limparInputs();
         } else {
@@ -111,20 +106,19 @@ public class ProductController implements Initializable {
         }
     }
 
-    public void add(Product product) {
-        products.add(product);
-        product.save();
+    public void add(Purchase purchase) {
+        purchases.add(purchase);
+        purchase.save();
     }
 
     public void editar() {
         // Voce deveria testar se tem algo selecionado ^^
         limparLabel();
 
-        if (productIsSelected()) {
-            productEdit = productTable.getSelectionModel().getSelectedItem();
+        if (purchaseIsSelected()) {
+            purchaseEdit = purchaseTable.getSelectionModel().getSelectedItem();
 
-            name.setText(productEdit.getName());
-            url.setText(productEdit.getUrl());
+            name.setText(purchaseEdit.getDate());
 
             entrarEdicao();// Esconde outros botoes e exibe o fim
         } else {
@@ -136,12 +130,11 @@ public class ProductController implements Initializable {
     public void concluirEdicao() {
         limparLabel();
 
-        if (productIsSelected()) {
-            productEdit.setName(name.getText());
-            productEdit.setUrl(url.getText());
+        if (purchaseIsSelected()) {
+            purchaseEdit.setDate(datePurchase.getText());
 
-            productEdit.update();
-            productTable.refresh();
+            purchaseEdit.update();
+            purchaseTable.refresh();
             limparInputs();
             sairEdicao();
         } else {
@@ -151,23 +144,23 @@ public class ProductController implements Initializable {
 
     public void deletar() {
         limparLabel();
-        if (productIsSelected()) {
-            Product productToDelete = productTable.getSelectionModel().getSelectedItem();
-            products.remove(productToDelete);
-            productToDelete.delete();
-            productTable.refresh();
+        if (purchaseIsSelected()) {
+            Purchase purchaseToDelete = purchaseTable.getSelectionModel().getSelectedItem();
+            purchases.remove(purchaseToDelete);
+            purchaseToDelete.delete();
+            purchaseTable.refresh();
         } else {
             avisoNaoSelecionado();
         }
     }
 
-    public void showCategories() {
+    public void showProducts() {
         limparLabel();
-        if (productIsSelected()) {
-            Product productToGetCategories = productTable.getSelectionModel().getSelectedItem();
+        if (purchaseIsSelected()) {
+            Purchase purchaseToGetCategories = purchaseTable.getSelectionModel().getSelectedItem();
             labelCategory.setVisible(false);
-            categoryTable.setVisible(true);
-            //ObservableList lista  = FXCollections.observableArrayList(Category.getAll(productToGetCategories.getName()));
+            productTable.setVisible(true);
+            //ObservableList lista  = FXCollections.observableArrayList(Category.getAll(purchaseToGetCategories.getName()));
             //categoryTable.setItems(lista);
         } else {
             avisoNaoSelecionado();
@@ -184,15 +177,15 @@ public class ProductController implements Initializable {
     }
 
     public boolean inputsEstaoPreenchidos() {
-        return !url.getText().isEmpty() && !name.getText().isEmpty();
+        return !datePurchase.getText().isEmpty();
     }
 
-    public boolean productIsSelected() {
-        return productTable.getSelectionModel().getSelectedItem() != null;
+    public boolean purchaseIsSelected() {
+        return purchaseTable.getSelectionModel().getSelectedItem() != null;
     }
 
     public void avisoNaoSelecionado() {
-        label.setText("[ERRO] Selecione um produto para editar!");
+        label.setText("[ERRO] Selecione uma compra para editar!");
     }
 
     public void sairEdicao() {
@@ -219,7 +212,7 @@ public class ProductController implements Initializable {
         CRUD.setRoot("Category");
     }
     
-    public void goToPurchase() throws IOException {
-        CRUD.setRoot("Purchase");
+    public void goToProduct() throws IOException {
+        CRUD.setRoot("Product");
     }
 }
