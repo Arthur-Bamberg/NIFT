@@ -19,6 +19,14 @@ public class Product {
         this.url = url;
     }
 
+    public Product(String name, String url) {
+        this.name = name;
+        this.url = url;
+    }
+
+    public Product() {
+    }
+
     public int getIdProduct() {
         return this.idProduct;
     }

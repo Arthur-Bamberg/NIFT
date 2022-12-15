@@ -35,7 +35,7 @@ public class UserRegistrationController implements Initializable {
     public void register() throws IOException {
         User usuario = new User(name.getText(), email.getText(), password.getText());
         usuario.save();
-        CRUD.setRoot("Products");
+        CRUD.setRoot("Product");
     }
     
 }
