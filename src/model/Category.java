@@ -10,6 +10,7 @@ public class Category {
     private int idCategory;
     private String name, description;
     private boolean successfullyRecorded = false;
+    private ArrayList<Product> products = null;
 
     public Category(int idCategory, String name, String description) {
         this.idCategory = idCategory;
@@ -39,6 +40,14 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public ArrayList<Product> getProducts() {
+        if (products == null) {
+            products = Product.loadByCategory(this.idCategory);
+        }
+
+        return this.products;
     }
 
     public boolean getSuccessfullyRecorded() {
@@ -109,11 +118,18 @@ public class Category {
         }
     }
 
-    public static ArrayList<Category> getByProduct(int idProduct) {
+    public static ArrayList<Category> load(int idProduct) {
         ArrayList<Category> categories = new ArrayList<Category>();
 
         Conexao dbConnection = new Conexao();
-        String insertTableSQL = "SELECT Category.idCategory, Category.name, Category.description FROM Category inner join Product_Category on Product_Category.FK_idCategory = Category.idCategory WHERE Product_Category.FK_idProduct = ?";
+        String insertTableSQL = "SELECT "
+                                    + "Category.idCategory,"
+                                    + " Category.name,"
+                                    + " Category.description"
+                                + " FROM Category"
+                                        + " inner join Product_Category"
+                                                + " on Product_Category.FK_idCategory = Category.idCategory"
+                                + " WHERE Product_Category.FK_idProduct = ?";
 
         try {
             PreparedStatement preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL);

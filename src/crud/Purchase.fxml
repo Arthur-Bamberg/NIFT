@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="553.0" prefWidth="737.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crud.PurchaseController">
+<AnchorPane id="AnchorPane" prefHeight="553.0" prefWidth="737.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crud.PurchaseController">
     <children>
       <Label layoutX="55.0" layoutY="51.0" text="Data" />
       <Label layoutX="58.0" layoutY="136.0" />
@@ -25,8 +25,8 @@
       <Button fx:id="concluirEdicao" layoutX="121.0" layoutY="242.0" onAction="#concluirEdicao" text="Concluir edição" />
       <TableView fx:id="productTable" layoutX="369.0" layoutY="279.0" prefHeight="109.0" prefWidth="268.0">
         <columns>
-            <TableColumn fx:id="nameColumn" prefWidth="128.0" text="Nome" />
-          <TableColumn fx:id="urlColumn" prefWidth="137.0" text="URL" />
+            <TableColumn fx:id="productName" prefWidth="128.0" text="Nome" />
+          <TableColumn fx:id="productUrl" prefWidth="137.0" text="URL" />
         </columns>
       </TableView>
       <Label fx:id="labelProduct" layoutX="369.0" layoutY="254.0" text="Produtos" />

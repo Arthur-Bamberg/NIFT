@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class User {
     //Falta read de ClientUser 
-    private  int idUser;
+    private  int idUser; //isManager não implementado
     private String name, email, password;
     private boolean isValid, successfullyRecorded = false;
     
@@ -80,8 +80,8 @@ public class User {
         PreparedStatement preparedStatement = null;
 
         String insertTableSQL = "INSERT INTO ClientUser"
-                + "(idClientUser, name, email, password) VALUES" 
-                + "(ClientUser_seq.nextval, ?, ?, ?)"; 
+                + "(idClientUser, name, email, password, isManager) VALUES" 
+                + "(ClientUser_seq.nextval, ?, ?, ?, 0)"; 
 
         try {
             preparedStatement = dbConnection.getConexao().prepareStatement(insertTableSQL, new String[] { "idClientUser" });

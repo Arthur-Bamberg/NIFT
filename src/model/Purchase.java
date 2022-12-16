@@ -11,6 +11,7 @@ public class Purchase {
     //Falta read de Purchase, Purchase_Product e save de Purchase_Product e Purchase
     private int idPurchase;
     private String date;
+    private double value; //Não implementado
     private boolean successfullyRecorded = false;
     private ArrayList<Product> products = null;
     
@@ -45,7 +46,7 @@ public class Purchase {
 
     public ArrayList<Product> getProducts() {
         if(products == null) {
-            this.products = Product.load(this.idPurchase);
+            this.products = Product.loadByPurchase(this.idPurchase);
         }
         
         return this.products;

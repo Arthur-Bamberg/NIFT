@@ -11,11 +11,11 @@ import model.Global;
 public class CRUD extends Application {
     
     private static Scene scene;
-    private static Global global;
+    private static Global global = new Global();
     
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("Login"), 1920, 1080);
+        scene = new Scene(loadFXML("Login"), 800, 450);
         stage.setScene(scene);
         stage.show();
     }

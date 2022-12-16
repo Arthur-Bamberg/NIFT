@@ -22,7 +22,7 @@ public class PurchaseController implements Initializable {
     private Label label;
      
     @FXML
-    private Label labelCategory;
+    private Label labelProduct;
 
     @FXML
     private TextField datePurchase;
@@ -71,7 +71,7 @@ public class PurchaseController implements Initializable {
 
         sairEdicao();
 
-        labelCategory.setVisible(false);
+        labelProduct.setVisible(false);
         productTable.setVisible(false);
 
         // Atribui o elemento a célula (dica crie um objeto fake para coisas mais
@@ -158,7 +158,7 @@ public class PurchaseController implements Initializable {
         limparLabel();
         if (purchaseIsSelected()) {
             Purchase purchaseToGetCategories = purchaseTable.getSelectionModel().getSelectedItem();
-            labelCategory.setVisible(false);
+            labelProduct.setVisible(false);
             productTable.setVisible(true);
             //ObservableList lista  = FXCollections.observableArrayList(Category.getAll(purchaseToGetCategories.getName()));
             //categoryTable.setItems(lista);
